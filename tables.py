@@ -89,7 +89,12 @@ def import_table(table,year):
         t = {'SPOLU' :  temp.iloc[:,:3].join(temp.iloc[:,mult*4+3:]) }
         for i in range(4):
             t[f'Q{i+1}'] =  temp.iloc[:,:3].join(temp.iloc[:,i*mult+3:i*mult+7+add]) 
-    # removing potencial spaces in column names       
-    for c in t.columns:
-        t = t.rename(columns={c:c.strip()})
+    # removing potencial spaces in column names
+    if isinstance(t,dict):
+        for i in t:
+            for c in t[i].columns:
+                t[i] = t[i].rename(columns={c:c.strip()})
+    else:       
+        for c in t.columns:
+            t = t.rename(columns={c:c.strip()})
     return t
