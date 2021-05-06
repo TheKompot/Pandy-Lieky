@@ -4,15 +4,15 @@ def import_table(table,year):
 
     # assigning table name by the combination of table and year
     if table == 'all' and year == 2020:
-        name = 'L01_L02_1_3Q_2020_rebricek_spotreba_humannych_liekov'
+        name = 'L01_L02_1_4Q_2020_rebricek_spotreba_humannych_liekov'
     elif table == 'insurance' and year == 2020:
-        name = 'L02_1_3Q_2020_rebricek_vydane_na_recept_hradene_z_verejneho_poistenia'
+        name = 'L02_1_4Q_2020_rebricek_vydane_na_recept_hradene_z_verejneho_poistenia'
     elif table == 'no prescription' and year == 2020:
-        name ='L01_1_3Q_2020_vydaj_V_rebricek_predane_bez_receptu'
+        name ='L01_1_4Q_2020_vydaj_V_rebricek_predane_bez_receptu'
     elif table == 'no insurance' and year == 2020:
-        name = 'L01_1_3Q_2020_vydaj_D_rebricek_vydane_na_recept_bez_uhrady_verejneho_poistenia'
+        name = 'L01_1_4Q_2020_vydaj_D_rebricek_vydane_na_recept_bez_uhrady_verejneho_poistenia'
     elif  table == 'detailed' and year == 2020:
-        name = ['P_L01_L02_1Q_2020','P_L01_L02_2Q_2020','P_L01_L02_3Q_2020']
+        name = ['P_L01_L02_1Q_2020','P_L01_L02_2Q_2020','P_L01_L02_3Q_2020','P_L01_L02_4Q_2020']
 
     elif table == 'all' and year == 2019:
         name = 'L01_L02_1_4Q_2019_rebricek_spotreba_humannych_liekov'
@@ -51,8 +51,9 @@ def import_table(table,year):
             for i,n in enumerate(name):
                 t[f'Q{i+1}'] = pd.read_excel(f'data/{n}.xlsx',sheet_name='Dataset',header=0)
         else: # all other option are normal tables
-            t = pd.read_excel(f'data/{name}.xlsx',sheet_name='Dáta',header=2).iloc[2:-1,:6].reset_index()
+            t = pd.read_excel(f'data/{name}.xlsx',sheet_name='Dáta',header=2).iloc[2:,:8].reset_index()
             t.pop('index')
+            t = t.rename(columns={2020:'Spolu'})
     elif table == 'detailed' and year == 2019:
         t = pd.read_excel(f'data/{name}.xlsx',sheet_name='Dáta',header=1)
     elif table == 'detailed':
